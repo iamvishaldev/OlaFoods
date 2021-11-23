@@ -16,15 +16,16 @@ import Countdown from 'react-native-countdown-component';
 import { styles } from '../HomeScreen/HomeScreenStyle'
 
 // global
-import { Constants, Colors, MyIcons, Fonts } from '../../global'
+import { Constants, Colors, MyIcons, Fonts, ScreensName } from '../../global'
 import FoodHeader from '../../Components/FoodHeader/FoodHeader';
 import { width, height } from '../../global/Constants'
 
 // DATA
 import { filterData, restaurantsData } from '../../global/Data'
+import { NavigationContainer } from '@react-navigation/native';
 
 // create a component
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 
     const [delivery, setDelivery] = useState(true)
 
@@ -72,11 +73,12 @@ const HomeScreen = () => {
                     screenHeight={Constants.height / 4}
                 />
             </>
-
-
-
         )
     }
+
+    //function : go to RestaurantMapScreen 
+    const RestaurantMapScreen = () => navigation.navigate(ScreensName.RESTAURANTSMAPSCREEN)
+
 
     return (
         <View style={styles.container}>
@@ -88,12 +90,14 @@ const HomeScreen = () => {
                 <ToggleButton
                     text={'Delivery'}
                     delivery={delivery}
-                    onPress={() => setDelivery(false)}
+                    onPress={() => setDelivery(!delivery)}
                 />
                 <ToggleButton
                     text={'Pick-Up'}
-                    delivery={false}
-                    onPress={() => setDelivery(false)}
+                    delivery={delivery}
+                    onPress={() => setDelivery(!delivery),
+                        RestaurantMapScreen
+                    }
                 />
             </View>
             <ScrollView>
@@ -212,18 +216,23 @@ const HomeScreen = () => {
                     }
                 </View>
             </ScrollView>
-            <View>
-                <TouchableOpacity
-                    style={styles.floatingButton}
-                >
-                    <MyIcons.MaterialCommunityIcons name="map-marker" size={32} color={Colors.ORANGE} />
-                    <MyText
-                        text={"Map"}
-                        color={Colors.TEXT_GRAY}
-                        fontWeight={'bold'}
-                    />
+            <View>{
+                delivery ?
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate(ScreensName.RESTAURANTSMAPSCREEN)}
+                        style={styles.floatingButton}
+                    >
+                        <MyIcons.MaterialCommunityIcons name="map-marker" size={32} color={Colors.ORANGE} />
+                        <MyText
+                            text={"Map"}
+                            color={Colors.TEXT_GRAY}
+                            fontWeight={'bold'}
+                        />
+                    </TouchableOpacity>
+                    :
+                    null
+            }
 
-                </TouchableOpacity>
             </View>
         </View>
 
