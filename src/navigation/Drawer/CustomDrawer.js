@@ -1,7 +1,7 @@
 // react components
-import React from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Switch } from 'react-native-elements';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Image, TouchableOpacity, Switch } from 'react-native'
+// import { Switch } from 'react-native-elements';
 // components
 import DrawerItems from '../../Components/DrawerItem/DrawerItem'
 import MyButton from '../../Components/MyButton/MyButton';
@@ -13,6 +13,9 @@ import { Colors, MyIcons } from '../../global'
 import { styles } from './CustomDrawerStyle'
 
 const CustomDrawer = () => {
+    const [isEnabled, setIsEnabled] = useState(false);
+    // function:toggle Switch
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return (
         <View style={styles.container}>
             <View style={styles.mainView}>
@@ -113,7 +116,13 @@ const CustomDrawer = () => {
                             fontFamily="BOLD"
                             fontSize={18}
                         />
-                        <Switch value={false} color="orange" />
+                        <Switch
+                            trackColor={{ false: "#767577", true: "#81b0ff" }}
+                            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                            ios_backgroundColor={Colors.BLACK}
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
                     </View>
                 </View>
                 <View style={styles.logOutView}>
